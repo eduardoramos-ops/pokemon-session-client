@@ -9,7 +9,7 @@ const fs = require("node:fs")
 const path = require("node:path")
 const ARQUIVO_TOKEN = path.join(__dirname, ".token")
 
-const SERVIDOR = "INSIRA AQUI O IP DO SERVIDOR"; // Utilize a porta 5000
+const SERVIDOR = "http://192.168.3.175:5000";
 
 let tokenAcesso = "";
 
@@ -17,6 +17,24 @@ if (fs.existsSync(ARQUIVO_TOKEN)) {
     tokenAcesso = fs.readFileSync(ARQUIVO_TOKEN, "utf8").trim();
 }
 
+async function consultarServidor(caminho, metodo = "GET", corpo = null) {
+    try{
+    
+    	const resposta = await fetch(`${SERVIDOR}${caminho}`, {
+	    	method: metodo,
+	    	body: corpo ? JSON.stringify(corpo): undefined
+	    });
+
+    	const dados = await resposta.json();
+
+    	console.log(`\nStatus HTTP: ${resposta.status}`);
+    	console.log("Resposta do servidor:");
+    	console.log(dados);
+    }catch (erro){
+    	console.log("Não foi possivel se conectar ao servidor");
+    	return null;
+    }
+}
 async function requisicao(caminho, metodo = "GET", corpo = null) {
     try {
         const headers = {};
@@ -58,6 +76,7 @@ async function menu() {
         console.log("3 - Consultar Pokémon");
         console.log("4 - Consultar usuário autenticado");
         console.log("5 - Fazer logout");
+        console.log("6 - Consultar servidor");
         console.log("0 - Sair");
 
         opcao = await rl.question("\nEscolha uma opção: ");
@@ -155,6 +174,9 @@ async function menu() {
 
                 break;
             }
+            case "6":
+                await consultarServidor("/health");
+                break; 
 
             case "0":
                 console.log("Encerrando o cliente...");
