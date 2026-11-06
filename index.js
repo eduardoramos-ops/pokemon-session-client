@@ -6,7 +6,7 @@ const rl = readline.createInterface({
     output: stdout
 });
 
-const SERVIDOR = "http://192.168.3.175:3000";
+const SERVIDOR = "INSIRA O IP D0 SERVIDOR AQUI:5000"; // Utilize a porta 5000
 
 let cookieSessao = "";
 

@@ -9,7 +9,7 @@ const fs = require("node:fs")
 const path = require("node:path")
 const ARQUIVO_TOKEN = path.join(__dirname, ".token")
 
-const SERVIDOR = "http://127.0.0.1:5000";
+const SERVIDOR = "INSIRA AQUI O IP DO SERVIDOR"; // Utilize a porta 5000
 
 let tokenAcesso = "";
 
